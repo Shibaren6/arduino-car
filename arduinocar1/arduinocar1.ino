@@ -1,4 +1,4 @@
-//tamamlanmadı
+//tamamlanMAdı
 #define x A0
 #define y A1
 
@@ -46,16 +46,6 @@ pinMode(y,INPUT);
 
 Serial.begin(9600);
 
-samob=samoa;
-samod=samoc;
-
-somob=somoa;
-somod=somoc;
-
-amotd=amota;
-amotb=amota;
-amotc=amota;
-
 }
 
 
@@ -71,31 +61,29 @@ t=map(vy,0,1023,0,255);//vy*255/1023*127.5/128.82;
 if (t<130){
 
   digitalWrite(amota,LOW);
+  digitalWrite(amotb,LOW);
+  digitalWrite(amotc,LOW);
+  digitalWrite(amotd,LOW);
 
   digitalWrite(samoa,LOW);
   digitalWrite(samoc,LOW);
   digitalWrite(somoa,LOW);
   digitalWrite(somoc,LOW);
+  digitalWrite(samob,LOW);
+  digitalWrite(samod,LOW);
+  digitalWrite(somob,LOW);
+  digitalWrite(somod,LOW);
 
-  delay(10);
-
-}
-
-else if (t>130) {
-
-  analogWrite(amota,t);
-
-  delay(10);
-
-}
-
-if (k>102.5 || k<152.5){
+  if (k>102.5 || k<152.5){
 
   digitalWrite(samoa,HIGH);
   digitalWrite(samoc,LOW);
-
   digitalWrite(somoa,HIGH);
   digitalWrite(somoc,LOW);
+  digitalWrite(samob,HIGH);
+  digitalWrite(samod,LOW);
+  digitalWrite(somob,HIGH);
+  digitalWrite(somod,LOW);
 
   delay(10);
 
@@ -108,6 +96,79 @@ else if (k<102.5){
   digitalWrite(samoc,HIGH);
   digitalWrite(somoa,HIGH);
   digitalWrite(somoc,LOW); 
+  digitalWrite(samob,LOW);
+  digitalWrite(samod,HIGH);
+  digitalWrite(somob,HIGH);
+  digitalWrite(somod,LOW); 
+
+  delay(10);
+
+}
+
+else if (k>152.5){
+
+  digitalWrite(samoa,HIGH);
+  digitalWrite(samoc,LOW); 
+  digitalWrite(somoa,LOW); 
+  digitalWrite(somoc,HIGH); 
+  digitalWrite(samob,HIGH);
+  digitalWrite(samod,LOW); 
+  digitalWrite(somob,LOW); 
+  digitalWrite(somod,HIGH); 
+
+  delay(10);
+
+}
+
+  delay(10);
+
+}
+
+else if (t>130) {
+
+  analogWrite(amota,t);
+  analogWrite(amotb,t);
+  analogWrite(amotd,t);
+  analogWrite(amotc,t);
+
+  digitalWrite(samoa,HIGH);
+  digitalWrite(samoc,HIGH);
+  digitalWrite(somoa,HIGH);
+  digitalWrite(somoc,HIGH);
+  digitalWrite(samob,HIGH);
+  digitalWrite(samod,HIGH);
+  digitalWrite(somob,HIGH);
+  digitalWrite(somod,HIGH);
+
+  delay(10);
+
+if (k>102.5 || k<152.5){
+
+  digitalWrite(samoa,HIGH);
+  digitalWrite(samoc,LOW);
+  digitalWrite(somoa,HIGH);
+  digitalWrite(somoc,LOW);
+  digitalWrite(samob,HIGH);
+  digitalWrite(samod,LOW);
+  digitalWrite(somob,HIGH);
+  digitalWrite(somod,LOW);
+
+  delay(10);
+
+
+}
+
+else if (k<102.5){
+
+  digitalWrite(samoa,LOW);
+  digitalWrite(samoc,HIGH);
+  digitalWrite(somoa,HIGH);
+  digitalWrite(somoc,LOW); 
+  digitalWrite(samob,LOW);
+  digitalWrite(samod,HIGH);
+  digitalWrite(somob,HIGH);
+  digitalWrite(somod,LOW); 
+
 
   delay(10);
 
@@ -117,8 +178,12 @@ else if (k<102.5){
 else if (k>152.5){
 
   digitalWrite(samoa,HIGH);
-  analogWrite(samoc,LOW); 
+  digitalWrite(samoc,LOW); 
   digitalWrite(somoa,LOW); 
+  digitalWrite(somoc,HIGH); 
+  digitalWrite(samob,HIGH);
+  digitalWrite(samod,LOW); 
+  digitalWrite(somob,LOW); 
   digitalWrite(somod,HIGH); 
 
   delay(10);
@@ -132,6 +197,6 @@ Serial.print(", y= ");
 Serial.println(t);
 
 delay(100);
-
 }
-//tamamlanmadı
+}
+//tamamlanMAdı
