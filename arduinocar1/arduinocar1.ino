@@ -2,11 +2,11 @@
 #define x A0
 #define y A1
 
-int samoa=2;
-int samob=3;
-int samoc=4;
-int samod=5;
-int somoa=6;
+int samoa=2;       //her sıralı ikili bir motora gidiyor, amaç 10 v elde edebilmek.
+int samob=3;       //ben gnd yerine low pin kullandım ki dönmek istediğinde ters tarafa 10 v versin (direncç gibi) ve az dönen teker eksenince dönüş sağlansın
+int samoc=4;       //ancak düşündüğüm gibi low pini gnd olarak kullanamadım, eğer kullanabilirsek veya başka bir yöntem bulabilirsek işlem neredeyse hallolmuş olucak
+int samod=5;       //not:motor controllerı kullanmayı beceremedim
+int somoa=6;       //samoa = sağ motor a , amota = arka (ana) motor a , somoa = sol motor a gibi ve a ile b = motor 1 , c ile d = motor 2 , arka motorda a,b,c,d = aynı motor
 int somob=7;
 int somoc=8;
 int somod=9;
