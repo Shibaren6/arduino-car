@@ -1,202 +1,138 @@
-//tamamlanMAdı
-#define x A0
-#define y A1
+#define x A0 //joystick x düzlemi
+#define y A1 //joystick y düzlemi
 
-int samoa=2;       //her sıralı ikili bir motora gidiyor, amaç 10 v elde edebilmek.
-int samob=3;       //ben gnd yerine low pin kullandım ki dönmek istediğinde ters tarafa 10 v versin (direncç gibi) ve az dönen teker eksenince dönüş sağlansın
-int samoc=4;       //ancak düşündüğüm gibi low pini gnd olarak kullanamadım, eğer kullanabilirsek veya başka bir yöntem bulabilirsek işlem neredeyse hallolmuş olucak
-int samod=5;       //not:motor controllerı kullanmayı beceremedim
-int somoa=6;       //samoa = sağ motor a , amota = arka (ana) motor a , somoa = sol motor a gibi ve a ile b = motor 1 , c ile d = motor 2 , arka motorda a,b,c,d = aynı motor
-int somob=7;
-int somoc=8;
-int somod=9;
+int samo1a=2; //sağ motor 1.giriş a +5v-0v
+int samo1b=3; //sağ motor 1.giriş b +5v-0v
 
-int amota=10;
-int amotb=11;
-int amotc=12;
-int amotd=13;
+int samo2a=4; //sağ motor 2.giriş a +5v-0v
+int samo2b=5; //sağ motor 2.giriş b +5v-0v
 
-float vx=0;
-float vy=0;
+int somo1a=7; //sol motor 1.giriş a +5v-0v
+int somo1b=8; //sol motor 1.giriş b +5v-0v
 
-float k=0;
-float t=0;
+int somo2a=12; //sol motor 2.giriş a +5v-0v  
+int somo2b=13; //sol motor 2. giriş b +5v-0v 
 
-float u=0;
+int amoa=6; //arka motor, iki teker için de
+int amob=9; //arka motor, iki teker için de
+int amoc=10; //arka motor, iki teker için de
+int amod=11; //arka motor, iki teker için de
+
+float k = 0;
+float t = 0;
+
+int vx=0;
+int vy=0;
 
 void setup() {
 
-pinMode(samoa,OUTPUT);
-pinMode(samob,OUTPUT);
-pinMode(samoc,OUTPUT);
-pinMode(samod,OUTPUT);
+  pinMode(2,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
 
-pinMode(somoa,OUTPUT);
-pinMode(somob,OUTPUT);
-pinMode(somoc,OUTPUT);
-pinMode(somod,OUTPUT);
+  pinMode(x,INPUT);
+  pinMode(y,INPUT);
 
-pinMode(amota,OUTPUT);
-pinMode(amotb,OUTPUT);
-pinMode(amotc,OUTPUT);
-pinMode(amotd,OUTPUT);
-
-pinMode(x,INPUT);
-pinMode(y,INPUT);
-
-Serial.begin(9600);
+  Serial.begin(9600);
 
 }
-
 
 void loop() {
 
-vx=analogRead(x);
-vy=analogRead(y);
+  vx=analogRead(x); //x değerini joystick den oku ve vx'e ata
+  vy=analogRead(y); //y değerini joystick den oku ve vy'ye ata
 
-k=map(vx,0,1023,0,255);//vx*255/1023*127.5/123.39;
-t=map(vy,0,1023,0,255);//vy*255/1023*127.5/128.82;
+  k=map(vx,0,1023,0,255); //1023 değerini 255'e dönüştür
+  t=map(vy,0,1023,0,255); //1023 değerini 255'e dönüştür
 
+  if (t<132.5) { //durma durumu, gaz yok, tüm tekerler dur
+    analogWrite(amoa,0);
+    analogWrite(amob,0);
+    analogWrite(amoc,0);
+    analogWrite(amod,0);
 
-if (t<130){
+    digitalWrite(samo1a,LOW);
+    digitalWrite(samo1b,LOW);
+    digitalWrite(samo2a,LOW);
+    digitalWrite(samo2b,LOW);
 
-  digitalWrite(amota,LOW);
-  digitalWrite(amotb,LOW);
-  digitalWrite(amotc,LOW);
-  digitalWrite(amotd,LOW);
+    digitalWrite(somo1a,LOW);
+    digitalWrite(somo1b,LOW);
+    digitalWrite(somo2a,LOW);
+    digitalWrite(somo2b,LOW);
 
-  digitalWrite(samoa,LOW);
-  digitalWrite(samoc,LOW);
-  digitalWrite(somoa,LOW);
-  digitalWrite(somoc,LOW);
-  digitalWrite(samob,LOW);
-  digitalWrite(samod,LOW);
-  digitalWrite(somob,LOW);
-  digitalWrite(somod,LOW);
+    delay(10);
 
-  if (k>102.5 || k<152.5){
+  }
 
-  digitalWrite(samoa,HIGH);
-  digitalWrite(samoc,LOW);
-  digitalWrite(somoa,HIGH);
-  digitalWrite(somoc,LOW);
-  digitalWrite(samob,HIGH);
-  digitalWrite(samod,LOW);
-  digitalWrite(somob,HIGH);
-  digitalWrite(somod,LOW);
+  else { //hareket halinde
 
-  delay(10);
+    analogWrite(amoa,t);
+    analogWrite(amob,t);
+    analogWrite(amoc,t);
+    analogWrite(amod,t);
 
+    delay(10);
 
-}
+  }
+    if (k>147.5) { //sağa dönme durumu. Sağ motorlar terse akım ver, direnç oluştur
 
-else if (k<102.5){
+     digitalWrite(samo1a,LOW);
+     digitalWrite(samo1b,LOW);
+     digitalWrite(samo2a,HIGH);
+     digitalWrite(samo2b,HIGH);
 
-  digitalWrite(samoa,LOW);
-  digitalWrite(samoc,HIGH);
-  digitalWrite(somoa,HIGH);
-  digitalWrite(somoc,LOW); 
-  digitalWrite(samob,LOW);
-  digitalWrite(samod,HIGH);
-  digitalWrite(somob,HIGH);
-  digitalWrite(somod,LOW); 
+     digitalWrite(somo1a,HIGH);
+     digitalWrite(somo1b,HIGH);
+     digitalWrite(somo2a,LOW);
+     digitalWrite(somo2b,LOW);
+  
+      delay(10);
 
-  delay(10);
+    }
+    else if (k<110) { //sola dönme durumu. Sol motorlar terse akım ver, direnç oluştur
 
-}
+      digitalWrite(samo1a,HIGH);
+      digitalWrite(samo1b,HIGH);
+      digitalWrite(samo2a,LOW);
+      digitalWrite(samo2b,LOW);
 
-else if (k>152.5){
+      digitalWrite(somo1a,LOW);
+      digitalWrite(somo1b,LOW);
+      digitalWrite(somo2a,HIGH);
+      digitalWrite(somo2b,HIGH);
 
-  digitalWrite(samoa,HIGH);
-  digitalWrite(samoc,LOW); 
-  digitalWrite(somoa,LOW); 
-  digitalWrite(somoc,HIGH); 
-  digitalWrite(samob,HIGH);
-  digitalWrite(samod,LOW); 
-  digitalWrite(somob,LOW); 
-  digitalWrite(somod,HIGH); 
+        delay(10);
 
-  delay(10);
+   }
+    else { //düz gitme durumu. Tüm motorlar ileri!!
 
-}
+      digitalWrite(samo1a,HIGH);
+      digitalWrite(samo1b,HIGH);
+      digitalWrite(samo2a,LOW);
+      digitalWrite(samo2b,LOW);
 
-  delay(10);
+      digitalWrite(somo1a,HIGH);
+      digitalWrite(somo1b,HIGH);
+      digitalWrite(somo2a,LOW);
+      digitalWrite(somo2b,LOW);
 
-}
-
-else if (t>130) {
-
-  analogWrite(amota,t);
-  analogWrite(amotb,t);
-  analogWrite(amotd,t);
-  analogWrite(amotc,t);
-
-  digitalWrite(samoa,HIGH);
-  digitalWrite(samoc,HIGH);
-  digitalWrite(somoa,HIGH);
-  digitalWrite(somoc,HIGH);
-  digitalWrite(samob,HIGH);
-  digitalWrite(samod,HIGH);
-  digitalWrite(somob,HIGH);
-  digitalWrite(somod,HIGH);
-
-  delay(10);
-
-if (k>102.5 || k<152.5){
-
-  digitalWrite(samoa,HIGH);
-  digitalWrite(samoc,LOW);
-  digitalWrite(somoa,HIGH);
-  digitalWrite(somoc,LOW);
-  digitalWrite(samob,HIGH);
-  digitalWrite(samod,LOW);
-  digitalWrite(somob,HIGH);
-  digitalWrite(somod,LOW);
-
-  delay(10);
+       delay(10);
+    } 
+    //Yaz efendi Yaaazzzz!!!
+  Serial.print("x= ");
+  Serial.print(k);
+  Serial.print("y= ");
+  Serial.println(t);
 
 
 }
-
-else if (k<102.5){
-
-  digitalWrite(samoa,LOW);
-  digitalWrite(samoc,HIGH);
-  digitalWrite(somoa,HIGH);
-  digitalWrite(somoc,LOW); 
-  digitalWrite(samob,LOW);
-  digitalWrite(samod,HIGH);
-  digitalWrite(somob,HIGH);
-  digitalWrite(somod,LOW); 
-
-
-  delay(10);
-
-
-}
-
-else if (k>152.5){
-
-  digitalWrite(samoa,HIGH);
-  digitalWrite(samoc,LOW); 
-  digitalWrite(somoa,LOW); 
-  digitalWrite(somoc,HIGH); 
-  digitalWrite(samob,HIGH);
-  digitalWrite(samod,LOW); 
-  digitalWrite(somob,LOW); 
-  digitalWrite(somod,HIGH); 
-
-  delay(10);
-
-}
-
-Serial.print("x= ");
-Serial.print(k);
-
-Serial.print(", y= ");
-Serial.println(t);
-
-delay(100);
-}
-}
-//tamamlanMAdı
