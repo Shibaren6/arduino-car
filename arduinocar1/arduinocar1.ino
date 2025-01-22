@@ -21,7 +21,7 @@ int amod=11; //arka motor, iki teker için de
 float k = 0;
 float t = 0;
 
-int vx=0;
+int vx=0; 
 int vy=0;
 
 void setup() {
@@ -129,10 +129,10 @@ void loop() {
        delay(10);
     } 
     //Yaz efendi Yaaazzzz!!!
-  Serial.print("x= ");
+  Serial.println("x= ");
   Serial.print(k);
-  Serial.print("y= ");
-  Serial.println(t);
+  Serial.println("y= ");
+  Serial.print(t);
 
 
 }
